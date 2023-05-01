@@ -1,0 +1,3 @@
+[submodule "3rdparty/nanologging"]
+	path = 3rdparty/nanologging
+	url = https://github.com/Eastern-Hogwarts/nanologging
