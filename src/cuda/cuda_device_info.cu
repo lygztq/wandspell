@@ -5,20 +5,24 @@
 void DumpDeviceInfo(int device_id) {
   cudaDeviceProp prop;
   CUDART_CALL(cudaGetDeviceProperties(&prop, device_id));
+  int clock_rate;
+  int memory_clock_rate;
+  cudaDeviceGetAttribute(&clock_rate, cudaDeviceAttr::cudaDevAttrClockRate, device_id);
+  cudaDeviceGetAttribute(&memory_clock_rate, cudaDeviceAttr::cudaDevAttrMemoryClockRate, device_id);
   std::cout << "===\nDevice " << device_id << ": " << std::endl;
   std::cout << "Device Name: " << prop.name << std::endl;
   std::cout << "Arch: sm" << prop.major << prop.minor << std::endl;
   std::cout << "Global Memory: " << prop.totalGlobalMem / 1024 / 1024 / 1024 << " GB" << std::endl;
-  std::cout << "Clock Rate: " << prop.clockRate / 1000 << " Mhz" << std::endl;
+  std::cout << "Clock Rate: " << clock_rate / 1000 << " Mhz" << std::endl;
+  std::cout << "Memory Clock Rate: " << memory_clock_rate / 1000 << " Mhz" << std::endl;
   std::cout << "Memory BusWidth: " << prop.memoryBusWidth << std::endl;
   std::cout << "Num of SM: " << prop.multiProcessorCount << std::endl;
-  std::cout << "Cuda Core Per SM: " << _ConvertSMVer2Cores(prop.major, prop.minor) << std::endl;
+  // std::cout << "Cuda Core Per SM: " << _ConvertSMVer2Cores(prop.major, prop.minor) << std::endl;
   std::cout << "Max Blocks Per SM: " << prop.maxBlocksPerMultiProcessor << std::endl;
   std::cout << "Max Threads Per SM: " << prop.maxThreadsPerMultiProcessor << std::endl;
-  std::cout << "Shared Memory Per Block: " << prop.sharedMemPerBlock / 1024 << " KB" << std::endl;
+  std::cout << "Max Shared Memory Per Block: " << prop.sharedMemPerBlockOptin / 1024 << " KB" << std::endl;
   std::cout << "Regs Per Block: " << prop.regsPerBlock << std::endl;
-  std::cout << "Memory bandwidth: (single) " << prop.memoryBusWidth / 8 * prop.memoryClockRate / 1000 / 1000 << " GB/s" << std::endl;
-  std::cout << "Memory bandwidth: (double) " << 2 * prop.memoryBusWidth / 8 * prop.memoryClockRate / 1000 / 1000 << " GB/s" << std::endl;
+  std::cout << "Memory bandwidth: " << 2 * prop.memoryBusWidth / 8 * memory_clock_rate / 1000 / 1000 << " GB/s" << std::endl;
 }
 
 int main() {

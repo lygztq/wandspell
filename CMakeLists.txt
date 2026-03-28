@@ -1,9 +1,16 @@
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 
-project(WandSpell LANGUAGES CXX)
+project(WandSpell LANGUAGES CXX CUDA)
 
 option(ENABLE_CUDA "whether to enable CUDA" ON)
 set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_INCLUDES 0)
+set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_LIBRARIES 0)
+set(CMAKE_CUDA_USE_RESPONSE_FILE_FOR_OBJECTS 0)
+set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
+set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_LIBRARIES 0)
+set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 0)
 
 # msvc does not have rpath, we need to put all things into one directory
 # TODO: build libraries in lib directory and copy to bin directory
